@@ -3,6 +3,22 @@ body {
 }
 .image {
     display: flex;
-    justify-content: left;
-    height: 300px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+
+}
+.about-me {
+    display: block;
+}
+.text {
+    flex-direction: column;
+    align-content: flex-end;
+    justify-content: center;
+    text-align: right;
+
+}
+.header {
+text-align: end;
 }
