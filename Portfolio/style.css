@@ -1,0 +1,22 @@
+img {
+    text-align: center;  
+    height: 500px;
+    margin: auto;
+    display: block;
+}
+h1 {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    display: table;
+    margin: 5px auto;
+    padding:5px;
+    background-color: white;
+}
+.sub {
+    font-style: italic;
+}
+.body {
+    background-color: lightblue; 
+    text-align: center;
+}
