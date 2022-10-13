@@ -1,0 +1,18 @@
+ul.contact {
+    list-style: none;
+    font-size: 50px;
+  }
+
+body {
+    background-color: wheat;
+}
+.heading li{
+    display: inline;
+    padding: 50px;
+    list-style: none;
+}
+.heading {
+    position: absolute; 
+    right: 0;
+    top: 0;
+}

@@ -2,7 +2,6 @@ img {
     text-align: center;  
     height: 500px;
     margin: auto;
-    display: block;
 }
 h1 {
     text-align: center;
@@ -10,7 +9,7 @@ h1 {
     top: 0;
     display: table;
     margin: 5px auto;
-    padding:5px;
+    padding: 5px;
     background-color: white;
 }
 .sub {
