@@ -15,6 +15,13 @@ h1 {
 .sub {
     font-style: italic;
 }
+.navbar {
+    background: pink;
+}
+.jumbotron {
+    padding-top: 100px;
+    background-color: azure;
+}
 .body {
     background-color: lightblue; 
     text-align: center;

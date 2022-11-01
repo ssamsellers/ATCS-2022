@@ -1,0 +1,10 @@
+body {
+    background-color: wheat;
+}
+img.card-img-top.location {
+    padding-top: 50px;
+    padding-bottom: 130px;
+}
+.navbar {
+    background-color: pink;
+}
