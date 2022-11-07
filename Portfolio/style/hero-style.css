@@ -1,10 +1,6 @@
 img {
-    text-align: center;  
     width: 100vh;
     margin: auto;
-}
-.sub {
-    font-style: italic;
 }
 .navbar {
     background: pink;
