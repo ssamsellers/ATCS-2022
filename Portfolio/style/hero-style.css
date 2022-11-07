@@ -1,16 +1,7 @@
 img {
     text-align: center;  
-    height: 500px;
+    width: 100vh;
     margin: auto;
-}
-h1 {
-    text-align: center;
-    position: sticky;
-    top: 0;
-    display: table;
-    margin: 5px auto;
-    padding: 5px;
-    background-color: white;
 }
 .sub {
     font-style: italic;
@@ -19,7 +10,7 @@ h1 {
     background: pink;
 }
 .jumbotron {
-    padding-top: 100px;
+    padding-top: 110px;
     background-color: azure;
 }
 .body {

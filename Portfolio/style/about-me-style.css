@@ -1,11 +1,6 @@
 body {
     background-color: lightpink;
 }
-/* .container {
-    display: grid;
-    height: 100vh;
-    grid-template-columns: 45% 55%;
-} */
 img {
     left: 0;
     height: 100vh;
@@ -14,11 +9,9 @@ img {
     height: 100vh;
     text-align: center;
 }
-.head {
-    font-weight: bold;
-    font-size: 50px;
-
-}
 .info {
     font-size: 50px;
+}
+.jumbotron {
+    background-color: palevioletred;
 }
