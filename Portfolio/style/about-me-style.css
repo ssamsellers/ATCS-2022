@@ -1,0 +1,17 @@
+body {
+    background-color: lightpink;
+}
+img {
+    left: 0;
+    height: 100vh;
+}
+.item-2 {
+    height: 100vh;
+    text-align: center;
+}
+.info {
+    font-size: 50px;
+}
+.jumbotron {
+    background-color: palevioletred;
+}

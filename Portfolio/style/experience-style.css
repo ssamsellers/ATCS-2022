@@ -1,0 +1,8 @@
+.card-img-top {
+    height: 50vh;
+    width: 100%;
+    object-fit: cover;
+}
+.navbar {
+    background: pink;
+}

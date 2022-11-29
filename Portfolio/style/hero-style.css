@@ -1,0 +1,15 @@
+img {
+    width: 100vh;
+    margin: auto;
+}
+.navbar {
+    background: pink;
+}
+.jumbotron {
+    padding-top: 110px;
+    background-color: azure;
+}
+.body {
+    background-color: lightblue; 
+    text-align: center;
+}
