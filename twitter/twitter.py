@@ -3,6 +3,9 @@ from database import init_db, db_session
 from datetime import datetime
 
 class Twitter:
+
+    def __init__(self):
+        self.current_user = None
     """
     The menu to print once a user has logged in
     """
@@ -38,25 +41,63 @@ class Twitter:
     is guaranteed to be logged in after this function.
     """
     def register_user(self):
-        pass
-
+        while True:
+            username = input("What will your twitter handle be? \n")
+            if username in self.users:
+                print("That username is already taken. Try Again")
+            else:
+                break
+        while True:
+            password = input("Enter your password: \n")
+            confirm_password = input("Re-enter your password: \n")
+            if password == confirm_password:
+                user = db_session.query(User).filter_by(username=username).first()
+                if user != None:
+                    print("Username alredy taken. Try again.")
+                else:
+                    db_session.add(User(username = username, password = password,))
+                    db_session.commit()
+                    print("\n Welcome " + username + "!")
+                    break
+            else:
+                print("Passwords don't match. Try again.")
     """
     Logs the user in. The user
     is guaranteed to be logged in after this function.
     """
     def login(self):
-        pass
+        while True:
+            username = input("Username: ")
+            password = input("Password: ")
+            user = self.session.query(User).filter_by(username=username, password=password).first()
+            if user != None:
+                self.current_user = user
+                print("Login successful!")
+                break
+            else:
+                print("Invalid username or password.")
 
     
     def logout(self):
-        pass
+        self.current_user = None
 
     """
     Allows the user to login,  
     register, or exit.
     """
     def startup(self):
-        pass
+        print("Please select a Menu Option")
+        print("1. Login")
+        print("2. Register User")
+        print("0. Exit")
+        choice = int(input(""))
+        if choice == 1:
+            self.login()
+        elif choice == 2:
+            self.register_user()
+        elif choice == 0:
+            exit()
+
 
     def follow(self):
         pass
@@ -92,25 +133,25 @@ class Twitter:
 
         print("Welcome to ATCS Twitter!")
         self.startup()
+        while True:
+            self.print_menu()
+            option = int(input(""))
 
-        self.print_menu()
-        option = int(input(""))
-
-        if option == 1:
-            self.view_feed()
-        elif option == 2:
-            self.view_my_tweets()
-        elif option == 3:
-            self.search_by_tag()
-        elif option == 4:
-            self.search_by_user()
-        elif option == 5:
-            self.tweet()
-        elif option == 6:
-            self.follow()
-        elif option == 7:
-            self.unfollow()
-        else:
-            self.logout()
-        
-        self.end()
+            if option == 1:
+                self.view_feed()
+            elif option == 2:
+                self.view_my_tweets()
+            elif option == 3:
+                self.search_by_tag()
+            elif option == 4:
+                self.search_by_user()
+            elif option == 5:
+                self.tweet()
+            elif option == 6:
+                self.follow()
+            elif option == 7:
+                self.unfollow()
+            else:
+                self.logout()
+            
+            self.end()
