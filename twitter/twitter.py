@@ -41,26 +41,21 @@ class Twitter:
     is guaranteed to be logged in after this function.
     """
     def register_user(self):
-        while True:
-            username = input("What will your twitter handle be? \n")
-            if username in self.users:
+        username = input("What will your twitter handle be? \n")
+        user = db_session.query(User).where(User.username == username).first()
+        while user != None:
                 print("That username is already taken. Try Again")
-            else:
-                break
-        while True:
+                username = input("What will your twitter handle be? \n")
+                user = db_session.query(User).where(User.username == username).first()
+        password = input("Enter your password: \n")
+        confirm_password = input("Re-enter your password: \n")
+        while password != confirm_password:
+            print("Passwords don't match. Try again.")
             password = input("Enter your password: \n")
             confirm_password = input("Re-enter your password: \n")
-            if password == confirm_password:
-                user = db_session.query(User).filter_by(username=username).first()
-                if user != None:
-                    print("Username alredy taken. Try again.")
-                else:
-                    db_session.add(User(username = username, password = password,))
-                    db_session.commit()
-                    print("\n Welcome " + username + "!")
-                    break
-            else:
-                print("Passwords don't match. Try again.")
+        db_session.add(User(username = username, password = password))
+        db_session.commit()
+        print("\n Welcome " + username + "!")
     """
     Logs the user in. The user
     is guaranteed to be logged in after this function.
@@ -69,7 +64,7 @@ class Twitter:
         while True:
             username = input("Username: ")
             password = input("Password: ")
-            user = self.session.query(User).filter_by(username=username, password=password).first()
+            user = db_session.query(User).where(username == User.username, password == User.password).first()
             if user != None:
                 self.current_user = user
                 print("Login successful!")
@@ -96,7 +91,8 @@ class Twitter:
         elif choice == 2:
             self.register_user()
         elif choice == 0:
-            exit()
+            self.end()
+
 
 
     def follow(self):
@@ -133,7 +129,7 @@ class Twitter:
 
         print("Welcome to ATCS Twitter!")
         self.startup()
-        while True:
+        while self.current_user != None:
             self.print_menu()
             option = int(input(""))
 
