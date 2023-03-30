@@ -96,16 +96,45 @@ class Twitter:
 
 
     def follow(self):
-        pass
+        follow = input("Who would you like to follow?")
+        user = db_session.query(User).where(follow == User.username).first()
+        if user != None:
+            #TODO query to check if person already follows them
+            check_following = db_session.query(Follower).where(follower_id = user.id)
+            if check_following != None:
+                print("You already follow " + follow)
+        else:
+            follower = Follower(follower_id = user.id)
+            db_session.add(follower)
+            db_session.commit()
+            print("You are now following " + follow + "!")
+
 
     def unfollow(self):
-        pass
+        unfollow = input("Who would you like to unfollow?")
+        user = db_session.query(User).where(unfollow == User.username).first()
+        if user != None:
+            #TODO check if current user is following them
+            follower = db_session.query(Follower).where(follower_id = user.id).first()
+            if follower != None:
+                #TODO remove follower
+                db_session.commit()
+                print("You are no longer following " + unfollow)
+            else:
+                print("You don't follow " + unfollow)
+
 
     def tweet(self):
-        pass
+        content = input("Create Tweet: ")
+        tags = input("Enter your tags separated by spaces: ")
+        timestamp = datetime.now()
+        tweet = Tweet(content = content, timestamp = timestamp, username = self.current_user.username, tags = tags)
+        db_session.add(tweet)
+        db_session.commit()
     
     def view_my_tweets(self):
-        pass
+        user_tweets = db_session.query(Tweet).where(username = self.current_user.username).all()
+        self.print_tweets(user_tweets)
     
     """
     Prints the 5 most recent tweets of the 
