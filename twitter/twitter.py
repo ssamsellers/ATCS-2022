@@ -97,43 +97,45 @@ class Twitter:
 
     def follow(self):
         follow = input("Who would you like to follow?")
-        user = db_session.query(User).where(follow == User.username).first()
-        if user != None:
-            #TODO query to check if person already follows them
-            check_following = db_session.query(Follower).where(follower_id = user.id)
-            if check_following != None:
-                print("You already follow " + follow)
+        user = db_session.query(User).where(User.username == follow).first()
+        if user in self.current_user.following:
+            print("You already follow " + follow)
         else:
-            follower = Follower(follower_id = user.id)
+            follower = Follower(follower_id = self.current_user.username, following_id = user.username)
             db_session.add(follower)
             db_session.commit()
             print("You are now following " + follow + "!")
-
-
+        
     def unfollow(self):
         unfollow = input("Who would you like to unfollow?")
         user = db_session.query(User).where(unfollow == User.username).first()
-        if user != None:
-            #TODO check if current user is following them
-            follower = db_session.query(Follower).where(follower_id = user.id).first()
-            if follower != None:
-                #TODO remove follower
+        if user in self.current_user.following:
+                #remove follower
+                following = db_session.query(Follower).filter_by(follower_id = self.current_user.username, following_id = user.username).first()
+                db_session.delete(following)
                 db_session.commit()
                 print("You are no longer following " + unfollow)
-            else:
-                print("You don't follow " + unfollow)
+        else:
+            print("You don't follow " + unfollow)
 
 
     def tweet(self):
         content = input("Create Tweet: ")
-        tags = input("Enter your tags separated by spaces: ")
+        tag_strings = input("Enter your tags separated by spaces: ").split()
+        tags = []
+        for tag in tag_strings:
+            #create tags object 
+            tag = Tag(content = tag)
+            db_session.add(tag)
+            tags.append(tag)
+
         timestamp = datetime.now()
         tweet = Tweet(content = content, timestamp = timestamp, username = self.current_user.username, tags = tags)
         db_session.add(tweet)
         db_session.commit()
     
     def view_my_tweets(self):
-        user_tweets = db_session.query(Tweet).where(username = self.current_user.username).all()
+        user_tweets = db_session.query(Tweet).where(Tweet.username == self.current_user.username).all()
         self.print_tweets(user_tweets)
     
     """
@@ -141,13 +143,31 @@ class Twitter:
     people the user follows
     """
     def view_feed(self):
-        pass
+        tweets = []
+        for following in self.current_user.following:
+            user_tweets = db_session.query(Tweet).where(Tweet.username == following.username).order_by(Tweet.timestamp.desc()).limit(5)
+            tweets.extend(user_tweets)
+        #put tweets in order
+        tweets.sort(reverse=True, key=lambda tweet: tweet.timestamp)
+        self.print_tweets(tweets)
 
     def search_by_user(self):
-        pass
+        username = input("Enter username to search for: ")
+        user = db_session.query(User).where(User.username == username).first()
+        if user == None:
+            print("There is no user by that name")
+        else:
+            user_tweets = db_session.query(Tweet).where(Tweet.username == username).all()
+            self.print_tweets(user_tweets)
 
     def search_by_tag(self):
-        pass
+        tag = input("Enter tag to search for: ")
+        tag = db_session.query(Tag).where(Tag.content == tag).first()
+        if tag == None:
+            print("There are no tweets with this tag")
+        else:
+            tweets = db_session.query(Tweet).where(Tag.content == tag).all()
+            self.print_tweets(tweets)
 
     """
     Allows the user to select from the 

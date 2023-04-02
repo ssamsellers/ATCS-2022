@@ -48,7 +48,11 @@ class Tweet(Base):
     tags = relationship("Tag", secondary="tweettags", back_populates="tweets")
     
     def __repr__(self):
-        return "@" + self.username + "\n" + self.content + "\n" + self.tags + "\n" + self.timestamp 
+        #create tag string to print
+        tag_string = ""
+        for tag in self.tags:
+            tag_string += tag.content + " "
+        return "@" + self.username + "\n" + self.content + "\n" + tag_string + "\n" + self.timestamp
 
 class Tag(Base):
     # TODO: Complete the class
