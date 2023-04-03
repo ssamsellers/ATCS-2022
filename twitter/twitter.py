@@ -162,12 +162,12 @@ class Twitter:
 
     def search_by_tag(self):
         tag = input("Enter tag to search for: ")
-        tag = db_session.query(Tag).where(Tag.content == tag).first()
-        if tag == None:
-            print("There are no tweets with this tag")
+        tag = db_session.query(Tag).filter(Tag.content == tag).first()
+        if tag != None:
+            tweets_with_tag = db_session.query(Tweet).join(TweetTag).filter(TweetTag.tag_id == tag.id).all()    
+            self.print_tweets(tweets_with_tag)
         else:
-            tweets = db_session.query(Tweet).where(Tag.content == tag).all()
-            self.print_tweets(tweets)
+            print("There is no tag by that name")
 
     """
     Allows the user to select from the 
